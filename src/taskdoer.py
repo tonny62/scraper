@@ -12,11 +12,11 @@ def get_session():
 def do_task(task, session):
     '''Send a request to smelink, parse the request and insert into database'''    
     #print("Doing", task)
-    response = session.get("https://smelink.net/search?text={}".format(task), verify=False) # This line s blocking
+    response = session.get("https://www.smelink.net/search?text={}".format(task), verify=False) # This line s blocking
     
     ## There must be 2 parser: 1. DBD for industry 2. SME-Link for ENG Name
     result = parse(response.text) # Do parsing
-    result['jpNo'] = task[0]
+    result['jpNo'] = task
     
     #insert(response) # This line also is blocking
     return result
@@ -40,6 +40,8 @@ def process_function(tasks, numthread, order):
 
 
     with ThreadPoolExecutor(max_workers=numthread) as tpool:
+        import os
+        print("Process {} has {} threads".format(os.getpid(), numthread))
         futures = [tpool.submit(lambda x:do_task(x, mysession),
             task) for task in tasks]  # do tasks
         [item.add_done_callback(callback) for item in futures] # add callback
