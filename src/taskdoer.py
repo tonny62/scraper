@@ -12,10 +12,14 @@ def get_session():
 def do_task(task, session):
     '''Send a request to smelink, parse the request and insert into database'''    
     #print("Doing", task)
-    response = session.get("https://www.smelink.net/search?text={}".format(task), verify=False) # This line s blocking
-    
-    ## There must be 2 parser: 1. DBD for industry 2. SME-Link for ENG Name
-    result = parse(response.text) # Do parsing
+    try:
+        response = session.get("https://www.smelink.net/search?text={}".format(task), verify=False) # This line s blocking
+        ## There must be 2 parser: 1. DBD for industry 2. SME-Link for ENG Name
+        result = parse(response.text) # Do parsing
+
+    except:
+        result = {"except":"error"}
+
     result['jpNo'] = task
     
     #insert(response) # This line also is blocking
