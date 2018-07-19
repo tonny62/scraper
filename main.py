@@ -21,17 +21,20 @@ if (__name__ == '__main__'):
     # Initialize arguments
     try:
         if(sys.argv[1] == '-i'):
-            numProcesses, numThreads, taskFile, test = interactive_input(), 0
+            numProcesses, numThreads, taskFile = interactive_input()
+            test = 0
         else:
             print("Using Test Configuration")
             raise
     except:
-        numProcesses, numThreads, taskFile, test= 2, 10, None, 1
+        numProcesses, numThreads, taskFile, test= 2, 20, None, 1
+    
+    print("numProcesses : {}, numThreads : {}, taskFile = {}, test = {}".format(
+        numProcesses, numThreads, taskFile, test))
 
     # Create Tasks
     if(test):
-        tasks = get_tasks_test()[:201]
-        print(tasks)
+        tasks = get_tasks_test()[:20]
     else:
         with open(taskFile, 'r') as fin:
             tasks = get_tasks(fin)
