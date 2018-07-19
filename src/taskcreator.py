@@ -10,6 +10,6 @@ def get_tasks(filein):
     '''Production function to retrieve data from csv file'''
     output = []
     for line in filein:
-        output.append(line.split(",")[2])  # See the data
+        output.append(line.strip())
     return output
 
