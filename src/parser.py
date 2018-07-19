@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup as bs
 
-def parse(html):
+def parse_legacy(html):
     '''Parse html file, return dictionary of a company details.'''
     soup = bs(html)
     body = soup.body
@@ -21,6 +21,26 @@ def parse(html):
         output['address'] = td[3].text.split(":")[1].strip()
         output['url'] = td[0].a.attrs.get('href')
         return output
+
+def parse(html):
+    try : 
+        soup = bs(html)
+        body = soup.body
+        table = body.find_all('table', recursive=False)[4]
+        company_table = table.find_all('table')[3]
+        datatd = company_table.find_all('td')[1].find_all('td')
+
+        output = {}
+        output['companynameTH'] = datatd[0].strong.text.strip()
+        output['companynameEN'] = datatd[1].text.strip()
+        output['companytype'] = datatd[2].text.split()[1]
+        output['address'] = datatd[3].text.split(":")[1].strip()
+        output['url'] = datatd[0].a.attrs.get('href') 
+
+    except :
+        output = parse_legacy(html)
+
+    return output
 
 def smallest_tbody(soup):
     return len(soup.find_all('tbody')) == 0
