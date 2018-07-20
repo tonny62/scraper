@@ -2,6 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 from src.parser import parse
 from tqdm import tqdm
+from src.sqlinserter import insert_into_db
 
 def get_session():
     s = requests.Session()
@@ -22,7 +23,7 @@ def do_task(task, session):
 
     result['jpNo'] = task
     
-    #insert(response) # This line also is blocking
+    insert_into_db(result) # This line also is blocking
     return result
 
 class mypbar():
