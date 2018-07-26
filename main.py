@@ -28,13 +28,14 @@ if (__name__ == '__main__'):
             raise
     except:
         numProcesses, numThreads, taskFile, test= 2, 20, None, 1
-    
+    print("\n"*3)   
     print("numProcesses : {}, numThreads : {}, taskFile = {}, test = {}".format(
         numProcesses, numThreads, taskFile, test))
-
+    print("\n*3")
     # Create Tasks
+
     if(test):
-        tasks = get_tasks_test()[:20]
+        tasks = get_tasks_test()
     else:
         with open(taskFile, 'r') as fin:
             tasks = get_tasks(fin)
@@ -44,10 +45,11 @@ if (__name__ == '__main__'):
     tasks_chunks = [(tasks_chunks[i], numThreads, i) 
         for i in range(numProcesses)]
 
-    # Do tasks with multiprocessing using multiple process
-    with Pool(processes=numProcesses) as p:
-        results_chunks = p.starmap(process_function, tasks_chunks, chunksize=1)
-
-    import pickle
-    with open("output.pickle", 'wb') as fout:
-        pickle.dump(results_chunks, fout)
+    try:
+        # Do tasks with multiprocessing using multiple process
+        with Pool(processes=numProcesses) as p:
+            results_chunks = p.starmap(process_function, tasks_chunks, chunksize=1)
+    finally:
+        import pickle
+        with open("output.pickle", 'wb') as fout:
+            pickle.dump(results_chunks, fout)
