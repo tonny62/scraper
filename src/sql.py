@@ -21,6 +21,19 @@ def get_connection():
         raise
     return cnx
 
+def get_task_done():
+    cnx = get_connection()
+    try:
+        cursor = cnx.cursor()
+        query = '''SELECT jpNo FROM company'''
+        cursor.execute(query)
+        done = cursor.fetchall()
+    finally:
+        cnx.close()
+
+    done = [item[0] for item in done]
+    return done
+
 def insert_into_db(companyDict1):
     cnx = get_connection()
     try:
