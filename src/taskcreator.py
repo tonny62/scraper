@@ -16,7 +16,7 @@ def get_tasks(filein):
     for line in filein:
         output.append(line.strip())
     
-    output = list(set(output).difference(get_task_done))
+    output = list(set(output).difference(get_task_done()))
     return output
 
 
