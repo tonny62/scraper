@@ -2,7 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 from src.parser import parse
 from tqdm import tqdm
-from src.sqlinserter import insert_into_db
+from src.sql import insert_into_db, get_task_done
 
 def get_session():
     s = requests.Session()
