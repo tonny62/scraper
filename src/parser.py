@@ -1,10 +1,18 @@
 from bs4 import BeautifulSoup as bs
 
 def parse(html):
+    try:
+        result = parse3(html)
+    except:
+        result = {}
+
+    return result
+
+def parse1(html):
     '''Parse html file, return dictionary of a company details.'''
     soup = bs(html)
     body = soup.body
-    print(body)
+    #print(body)
     tbody = body.find_all('tbody')
     tbody = list(filter(smallest_tbody, tbody))
     tbody = list(filter(has_4td, tbody))   ## contains 1 company
@@ -22,13 +30,13 @@ def parse(html):
         output['url'] = td[0].a.attrs.get('href')
         return output
 
-def parse_a(html):
+def parse2(html):
     soup = bs(html)
     body = soup.body
     table = body.find_all('table', recursive=False)[4]
     company_table = table.find_all('table')[3]
     datatd = company_table.find_all('td')[1].find_all('td')
-    print(datatd[0])
+    #print(datatd[0])
     output = {}
     output['companynameTH'] = datatd[0].strong.text.strip()
     output['companynameEN'] = datatd[1].text.strip()
@@ -37,7 +45,7 @@ def parse_a(html):
     output['url'] = datatd[1].a.attrs.get('href') 
     return output
 
-def parse(html):
+def parse3(html):
     def table_filter(table):
         correct_attrs = {'width': '980', 'border': '0', 'cellspacing': '0', 'cellpadding': '0'}
         return correct_attrs == table.attrs

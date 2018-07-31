@@ -1,4 +1,3 @@
-# TODO : Write sql inserter to insert the dictionary of data to database
 import configparser
 import mysql.connector
 
@@ -21,7 +20,22 @@ def get_connection():
         raise
     return cnx
 
+def clear_none():
+    cnx = get_connection()
+    try:
+        cursor = cnx.cursor()
+        query = '''DELETE FROM `company`
+        WHERE `companynameEN` = 'None';'''
+        cursor.execute(query)
+        cnx.commit()
+    except:
+        raise
+    finally:
+        cnx.close()
+
+
 def get_task_done():
+    clear_none()
     cnx = get_connection()
     try:
         cursor = cnx.cursor()
@@ -30,7 +44,6 @@ def get_task_done():
         done = cursor.fetchall()
     finally:
         cnx.close()
-
     done = [item[0] for item in done]
     return done
 
