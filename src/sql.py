@@ -45,7 +45,7 @@ def insert_into_db(companyDict1):
                 companyDict1.get('address'))
         query = '''INSERT INTO `company`(`companynameEN`,
                 `companynameTH`, `jpNo`, `url`, `address`)
-            VALUES ('{}', '{}', '{}', '{}', '{}')'''.format(*data)
+            VALUES ("{}", "{}", "{}", "{}", "{}")'''.format(*data)
         cursor.execute(query)
         cnx.commit()
     finally:
