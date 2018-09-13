@@ -25,7 +25,7 @@ def get_tasks(filein):
     for line in filein:
         output.append(line.strip())
     
-    output = list(set(output).difference(get_task_done()))[:500]
+    output = list(set(output).difference(get_task_done()))[:5000]
     print("Task Created : ", len(output))
     return output
 
