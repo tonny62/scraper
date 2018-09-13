@@ -16,6 +16,10 @@ def interactive_input():
     tf = input()
     return np, nt, tf
 
+def log_done():
+    with open('done', 'w', encoding='utf-8') as fout:
+        fout.write('1')
+    
 
 if (__name__ == '__main__'):
     # Initialize arguments
@@ -24,7 +28,7 @@ if (__name__ == '__main__'):
             numProcesses, numThreads, taskFile = interactive_input()
             test = 0
         elif(sys.argv[1] == '-d'):
-            numProcesses, numThreads, taskFile = 2, 25, 'data/firmID_DBD.csv'
+            numProcesses, numThreads, taskFile = 20, 25, 'data/firmID_DBD.csv'
             test = 0
         else:
             print("Using Test Configuration")
@@ -53,10 +57,13 @@ if (__name__ == '__main__'):
 #            newtask.append(tasks[i])
 #        print("Limit at", limit)
 #
+    if(len(tasks) == 0):
+        log_done()
+        sys.exit()
+
     tasks_chunks = chunk_splitter(tasks, numProcesses)
     tasks_chunks = [(tasks_chunks[i], numThreads, i) for i in range(numProcesses)]
     
-    time.sleep(2)
     # Do tasks with multiprocessing using multiple process
     with Pool(processes=numProcesses) as p:
         results_chunks = p.starmap(process_function, tasks_chunks)

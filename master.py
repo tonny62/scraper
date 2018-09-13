@@ -1,7 +1,10 @@
 import subprocess
 import time
-
+import os
 
 if(__name__ == '__main__'):
     while(True):
-        subprocess.run(['python3', 'main.py', '-d'])
+        if('done' in os.listdir()):
+            break
+        else:
+            subprocess.run(['python3', 'main.py', '-d'])
