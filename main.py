@@ -1,10 +1,8 @@
 from src import *
 from multiprocessing import Pool
-from concurrent.futures import ThreadPoolExecutor
 import sys
 import warnings
 warnings.filterwarnings('ignore')    # suppress all warning
-from tqdm import tqdm
 import time
 
 def interactive_input():
@@ -47,17 +45,7 @@ if (__name__ == '__main__'):
     else:
         with open(taskFile, 'r') as fin:
             tasks = get_tasks(fin)
- 
-#    limit = 5000
-#    if(len(tasks) < limit):
-#        pass
-#    else:
-#        newtask = []
-#        for i in range(limit):
-#            newtask.append(tasks[i])
-#        print("Limit at", limit)
-#
-    if(len(tasks) == 0):
+   if(len(tasks) == 0):
         log_done()
         sys.exit()
 
